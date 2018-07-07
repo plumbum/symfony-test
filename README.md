@@ -31,6 +31,11 @@ Stop daemonized server:
 ```bash
 php bin/console server:stop
 ```
+## Профилирование
+
+```bash
+composer require profiler
+```
 
 ## Index page
 
@@ -91,6 +96,7 @@ php bin/console doctrine:database:drop --force
 ```bash
 php bin/console make:entity Author
 ```
+аналогично создаём сущность для книг.
 
 После можно создать миграцию:
 
@@ -102,5 +108,11 @@ php bin/console make:migration
 
 ```bash
 php bin/console doctrine:migrations:migrate
+```
+
+## Twig
+
+```bash
+composer require twig
 ```
 
