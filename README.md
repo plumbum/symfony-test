@@ -82,3 +82,25 @@ php bin/console doctrine:database:create
 php bin/console doctrine:database:drop --force
 ```
 
+## Создание сущеностей
+
+Полезно почитать про [аннотации doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html).
+
+Сгенерировать шаблон сущности можно командой:
+
+```bash
+php bin/console make:entity Author
+```
+
+После можно создать миграцию:
+
+```bash
+php bin/console make:migration
+```
+
+и применить её:
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
