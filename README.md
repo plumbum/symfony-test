@@ -56,3 +56,29 @@ php bin/console make:controller DefaultController
 ```
 
 Заготовка контроллера будет создана в каталоге `src/Controller`.
+
+## Init database
+
+```bash
+composer require doctrine
+```
+
+После этого можно прописать в `.env` корректную строку доступа к БД.
+В нашем случае это sqlite:
+
+```bash
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/books.db"
+```
+
+Теперь можно создать БД:
+
+```bash
+php bin/console doctrine:database:create
+```
+
+Или грохнуть её, если не нужна больше:
+
+```bash
+php bin/console doctrine:database:drop --force
+```
+
