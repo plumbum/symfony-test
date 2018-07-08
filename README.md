@@ -116,3 +116,11 @@ php bin/console doctrine:migrations:migrate
 composer require twig
 ```
 
+## Формы
+
+https://symfony.com.ua/doc/current/forms.html
+
+```bash
+composer require form
+```
+

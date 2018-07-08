@@ -76,6 +76,32 @@ class Author
         return $this->id;
     }
 
+    /**
+     * Собирает строку из фамилии имени отчества.
+     * @return string
+     */
+    public function getFullName()
+    {
+        $names = [];
+        if (!empty($this->last_name)) { $name[] = $this->last_name; }
+        if (!empty($this->first_name)) { $name[] = $this->first_name; }
+        if (!empty($this->middle_name)) { $name[] = $this->middle_name; }
+        return implode(' ', $names);
+    }
+
+    /**
+     * Собирает сроку из фамилии и.о.
+     * @return string
+     */
+    public function getShortName()
+    {
+        $names = [];
+        if (!empty($this->last_name)) { $name[] = $this->last_name; }
+        if (!empty($this->first_name)) { $name[] = mb_substr($this->first_name, 0, 1) . '.'; }
+        if (!empty($this->middle_name)) { $name[] = mb_substr($this->middle_name, 0, 1) . '.'; }
+        return implode(' ', $names);
+    }
+
     public function getFirstName(): ?string
     {
         return $this->first_name;
