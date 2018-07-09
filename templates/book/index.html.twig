@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список книг{% endblock %}
+
+{% block body %}
+    <h1>Книги</h1>
+
+    <div>
+        <a href="{{ path('book_create') }}">Добавить книгу</a>
+    </div>
+
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{{ path('book_view', {'book': book.id}) }}">{{ book.getTitle() }} ({{ book.getYear() }})</a>
+                {% if book.getAuthors() %}[
+                {% for author in book.getAuthors() %}
+                    <a href="{{ path('author_view', {'author': author.id}) }}">{{ author.getShortName() }}</a>{% if not loop.last %},{% endif %}
+                {% endfor %}
+                ]{% endif %}
+                <em><a href="{{ path('book_update', {'book': book.id}) }}">Редактировать</a></em>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

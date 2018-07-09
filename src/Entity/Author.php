@@ -33,16 +33,7 @@ class Author
     /**
      * @var \Doctrine\Common\Collections\Collection|Book[]
      *
-     * @ORM\ManyToMany(targetEntity="Book", inversedBy="authors")
-     * @ORM\JoinTable(
-     *  name="author_book",
-     *  joinColumns={
-     *      @ORM\JoinColumn(name="author_id", referencedColumnName="id")
-     *  },
-     *  inverseJoinColumns={
-     *      @ORM\JoinColumn(name="book_id", referencedColumnName="id")
-     *  }
-     * )
+     * @ORM\ManyToMany(targetEntity="Book", mappedBy="authors")
      */
     protected $books;
 
@@ -83,9 +74,9 @@ class Author
     public function getFullName()
     {
         $names = [];
-        if (!empty($this->last_name)) { $name[] = $this->last_name; }
-        if (!empty($this->first_name)) { $name[] = $this->first_name; }
-        if (!empty($this->middle_name)) { $name[] = $this->middle_name; }
+        if (!empty($this->last_name)) { $names[] = $this->last_name; }
+        if (!empty($this->first_name)) { $names[] = $this->first_name; }
+        if (!empty($this->middle_name)) { $names[] = $this->middle_name; }
         return implode(' ', $names);
     }
 
@@ -96,9 +87,9 @@ class Author
     public function getShortName()
     {
         $names = [];
-        if (!empty($this->last_name)) { $name[] = $this->last_name; }
-        if (!empty($this->first_name)) { $name[] = mb_substr($this->first_name, 0, 1) . '.'; }
-        if (!empty($this->middle_name)) { $name[] = mb_substr($this->middle_name, 0, 1) . '.'; }
+        if (!empty($this->last_name)) { $names[] = $this->last_name; }
+        if (!empty($this->first_name)) { $names[] = mb_substr($this->first_name, 0, 1) . '.'; }
+        if (!empty($this->middle_name)) { $names[] = mb_substr($this->middle_name, 0, 1) . '.'; }
         return implode(' ', $names);
     }
 
@@ -136,5 +127,21 @@ class Author
         $this->last_name = $last_name;
 
         return $this;
+    }
+
+    /**
+     * @return Book[]|\Doctrine\Common\Collections\Collection
+     */
+    public function getBooks()
+    {
+        return $this->books;
+    }
+
+    /**
+     * @param Book[]|\Doctrine\Common\Collections\Collection $books
+     */
+    public function setBooks($books): void
+    {
+        $this->books = $books;
     }
 }

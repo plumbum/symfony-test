@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Информация о книге {{ book.getTitle() }}{% endblock %}
+
+{% block body %}
+    <h1>Информация о книге</h1>
+
+    <div>
+        <a href="{{ path('book') }}">К списку книг</a>
+    </div>
+
+    <ul>
+        <li>Название: {{ book.getTitle() }}</li>
+        <li>Год издания: {{ book.getYear() }}</li>
+        <li>ISBN: {{ book.getISBN() }}</li>
+        <li>Страниц: {{ book.getPages() }}</li>
+        <li>Авторы: {% for author in book.getAuthors() %}
+                <a href="{{ path('author_view', {'author': author.id}) }}">{{ author.getShortName() }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}</li>
+    </ul>
+
+    {{ book.getCover() }}
+
+    <div>
+        <a href="{{ path("book_update", {'book': book.id}) }}">Отредактировать</a>
+    </div>
+
+
+{% endblock %}

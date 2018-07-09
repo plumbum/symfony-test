@@ -33,7 +33,16 @@ class Book
     /**
      * @var \Doctrine\Common\Collections\Collection|Author[]
      *
-     * @ORM\ManyToMany(targetEntity="Author", mappedBy="books")
+     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books")
+     * @ORM\JoinTable(
+     *  name="book_author",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     *  }
+     * )
      */
     protected $authors;
 
@@ -70,11 +79,6 @@ class Book
     {
         $this->authors = new ArrayCollection();
     }
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $author_id;
 
     public function getId()
     {
@@ -141,15 +145,20 @@ class Book
         return $this;
     }
 
-    public function getAuthorId(): ?int
+    /**
+     * @return Author[]|\Doctrine\Common\Collections\Collection
+     */
+    public function getAuthors()
     {
-        return $this->author_id;
+        return $this->authors;
     }
 
-    public function setAuthorId(int $author_id): self
+    /**
+     * @param Author[]|\Doctrine\Common\Collections\Collection $authors
+     */
+    public function setAuthors($authors): void
     {
-        $this->author_id = $author_id;
-
-        return $this;
+        $this->authors = $authors;
     }
+
 }
