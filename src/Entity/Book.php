@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
@@ -68,6 +69,7 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png" })
      */
     private $cover;
 
@@ -133,12 +135,12 @@ class Book
         return $this;
     }
 
-    public function getCover(): ?string
+    public function getCover()
     {
         return $this->cover;
     }
 
-    public function setCover(?string $cover): self
+    public function setCover($cover): self
     {
         $this->cover = $cover;
 

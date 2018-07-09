@@ -15,6 +15,7 @@ namespace App\Form;
 use App\Entity\Book;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +31,7 @@ class BookType extends AbstractType
             ->add('year', IntegerType::class, ['label' => 'Год издания'])
             ->add('ISBN', IntegerType::class, ['label' => 'ISBN'])
             ->add('pages', IntegerType::class, ['label' => 'Кол-во страниц'])
-            // ->add('cover', FileType::class, ['label' => 'Обложка', 'required' => false])
+            ->add('cover', FileType::class, ['label' => 'Обложка', 'required' => false])
             ->add('authors', EntityType::class, [
                 'class' => 'App:Author',
                 'choice_label' => 'short_name',

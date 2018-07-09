@@ -10,16 +10,19 @@
     </div>
 
     <ul>
-        <li>Название: {{ book.getTitle() }}</li>
-        <li>Год издания: {{ book.getYear() }}</li>
-        <li>ISBN: {{ book.getISBN() }}</li>
-        <li>Страниц: {{ book.getPages() }}</li>
-        <li>Авторы: {% for author in book.getAuthors() %}
+        <li>Название: {{ book.title }}</li>
+        <li>Год издания: {{ book.year }}</li>
+        <li>ISBN: {{ book.ISBN }}</li>
+        <li>Страниц: {{ book.pages }}</li>
+        <li>Авторы: {% for author in book.authors %}
                 <a href="{{ path('author_view', {'author': author.id}) }}">{{ author.getShortName() }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}</li>
     </ul>
 
-    {{ book.getCover() }}
+    {% if book.cover %}
+        <img src="{{ asset('uploads/covers/' ~ book.cover) }}" /><br/>
+        {{ book.cover }}
+    {% endif %}
 
     <div>
         <a href="{{ path("book_update", {'book': book.id}) }}">Отредактировать</a>

@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Service\FileUploader;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Form\BookType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BookController extends Controller
@@ -41,10 +44,11 @@ class BookController extends Controller
      * @Route("/book/create", name="book_create")
      * @Route("/book/create/{author}", name="book_create_author")
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @param Author|null $author
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function create(Request $request, Author $author = null)
+    public function create(Request $request, FileUploader $fileUploader, Author $author = null)
     {
         $book = new Book();
         if ($author) {
@@ -56,6 +60,13 @@ class BookController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $book->getCover();
+            if ($file) {
+                $fileName = $fileUploader->upload($file);
+                $book->setCover($fileName);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
@@ -73,17 +84,36 @@ class BookController extends Controller
     /**
      * @Route("/book/update/{book}", name="book_update")
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @param Book $book
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, FileUploader $fileUploader, Book $book)
     {
+
+        $cover = $book->getCover();
+        $cover_path = $this->getParameter('cover_directory') . '/' . $cover;
+        if (file_exists($cover_path)) {
+            $book->setCover(new File($cover_path));
+        } else {
+            $book->setCover(null);
+        }
 
         $form = $this->createForm(BookType::class, $book);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $book->getCover();
+            if ($file) {
+                $fileName = $fileUploader->upload($file);
+                $book->setCover($fileName);
+            } else {
+                // Если изображение не было загружено при обновлении, то сохраняем старое
+                $book->setCover($cover);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
@@ -98,4 +128,5 @@ class BookController extends Controller
     }
 
     // TODO для полного CRUD нуже ещё метод удаления, но его пока отложим.
+
 }
