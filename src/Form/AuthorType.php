@@ -27,7 +27,7 @@ class AuthorType extends AbstractType
         $builder
             ->add('last_name', TextType::class, ['label' => 'Фамилия'])
             ->add('first_name', TextType::class, ['label' => 'Имя'])
-            ->add('middle_name', TextType::class, ['label' => 'Отчество'])
+            ->add('middle_name', TextType::class, ['label' => 'Отчество', 'required' => false])
         ;
     }
 

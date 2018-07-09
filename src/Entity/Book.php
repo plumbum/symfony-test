@@ -49,6 +49,7 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -59,11 +60,13 @@ class Book
 
     /**
      * @ORM\Column(type="decimal", precision=13, scale=0)
+     * @Assert\Isbn(bothIsbnMessage="Введите корректный ISBN номер")
      */
     private $ISBN;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=1, minMessage="В книге должна быть хотя бы {{ limit }} страниц")
      */
     private $pages;
 

@@ -127,6 +127,21 @@ class BookController extends Controller
         ));
     }
 
-    // TODO для полного CRUD нуже ещё метод удаления, но его пока отложим.
+    /**
+     * @Route("/book/delete/{book}", name="book_delete")
+     * @param Book $book
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Book $book)
+    {
+        /* TODO по хорошему, мы не должны ничего удалять из базы, только если это действительно обоснованно.
+            Вместо удаления стоит завести флаг, показывающий, что данные были "удалены".
+        */
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($book);
+        $em->flush();
+        return $this->redirectToRoute('book');
+    }
 
 }

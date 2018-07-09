@@ -92,5 +92,20 @@ class AuthorController extends Controller
         ));
     }
 
-    // TODO для полного CRUD нуже ещё метод удаления, но его пока отложим.
+    /**
+     * @Route("/author/delete/{author}", name="author_delete")
+     * @param Author $author
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Author $author)
+    {
+        /* TODO по хорошему, мы не должны ничего удалять из базы, только если это действительно обоснованно.
+            Вместо удаления стоит завести флаг, показывающий, что данные были "удалены".
+            И удаление в интерфейсе без дополнительных подтверждений со стороны пользователя тоже не есть гут.
+        */
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($author);
+        $em->flush();
+        return $this->redirectToRoute('author');
+    }
 }
