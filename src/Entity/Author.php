@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AuthorRepository")
@@ -18,6 +19,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *     @Index(name="fullname_idx", columns={"first_name", "middle_name", "last_name"})
  *   }
  * )
+ * @UniqueEntity({"first_name", "middle_name", "last_name"})
  */
 class Author
 {

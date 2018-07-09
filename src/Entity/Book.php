@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
@@ -21,6 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     @Index(name="isbn_idx", columns={"ISBN"})
  *   }
  * )
+ * @UniqueEntity({"title", "year"})
+ * @UniqueEntity({"ISBN"})
  */
 class Book
 {
